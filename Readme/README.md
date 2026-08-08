@@ -1,5 +1,30 @@
 # MPU6050 based Respiration Rate calculator for sleep monitoring
 
+Vidlink: https://drive.google.com/drive/folders/1QNU3sl9Tb0qz4BG5r3MqL0wRlBGx8VSz
+
+Overview
+This project presents a non-invasive telemetry and digital signal processing framework for real-time human respiratory rate estimation using a single chest-worn three-axis inertial measurement unit coupled with an ESP32 micro-controller streaming raw accelerometer data over Bluetooth Low Energy at a continuous sampling frequency of one hundred hertz. The processing pipeline directly addresses the challenge of isolating subtle, low-amplitude respiration-induced chest wall displacements from high-amplitude gravitational posture vectors, body movement artifacts, and electronic sensor jitter. Raw acceleration signals are first smoothed using a local time-domain Savitzky-Golay polynomial filter to suppress high-frequency quantization noise while strictly preserving asymmetric waveform morphology and peak amplitude integrity. Baseline drift and low-frequency motion sway are subsequently eliminated through zero-phase forward-backward second-order high-pass Butterworth digital filtering with a half-hertz cutoff threshold, preventing phase distortion and temporal peak displacement.
+
+Respiratory frequencies are continuously estimated across sliding five-second observation windows using a dual-engine analytical framework operating in parallel. In the frequency domain, normalized single-sided real Fast Fourier Transforms isolate dominant movement energy within a bounded spectrum, while the time-domain engine executes local maxima peak prominence detection to evaluate mean inter-peak intervals. To account for multi-harmonic chest wall mechanics and sensor mounting dynamics that generate higher-order cyclic sub-movements during individual breath cycles, an empirical sub-harmonic one-to-four frequency scaling algorithm converts raw acceleration event spikes into true physiological breaths per minute. The overall architecture is embedded within an asynchronous non-blocking Python streaming engine that decouples high-frequency data ingestion, analytics execution, multi-subplot canvas rendering, and structured metadata telemetry logging.
+
+Algo Documentation
+## Configuration Parameters Reference
+
+The system's operational thresholds and signal processing parameters are defined at the top of the streaming application. Adjust these parameters to match different sensor orientations or physical mounting constraints.
+
+| Parameter | Default Value | Description |
+| :--- | :--- | :--- |
+| `FS` | `100 Hz` | IMU sampling frequency received over BLE notifications. |
+| `MAX_PLOT_POINTS` | `200` | Number of raw data points rendered per subplot window ($\approx 2 \text{s}$). |
+| `WINDOW_SIZE` | `500` | Rolling sample length for real-time DSP calculations ($5.0 \text{s}$). |
+| `SG_WINDOW` | `31` | Window length for the Savitzky-Golay smoothing filter ($\approx 0.31 \text{s}$). |
+| `SG_POLY` | `3` | Polynomial order used for local Savitzky-Golay curve fitting. |
+| `HP_CUTOFF` | `0.5 Hz` | High-pass Butterworth cutoff frequency for motion drift suppression. |
+| `MIN_BAND_HZ` | `0.5 Hz` | Lower boundary for valid spectral movement searches ($30 \text{ raw CPM}$). |
+| `MAX_BAND_HZ` | `4.0 Hz` | Upper boundary for valid spectral movement searches ($240 \text{ raw CPM}$). |
+
+---
+
 This firmware runs on an **ESP32-C3** and streams **3-axis acceleration** from an **MPU6050** over **BLE notifications** at **100 samples/sec (100 Hz)**.
 
 It is implemented in **ESP-IDF (not Arduino)** using the **NimBLE** host stack and the **ESP-IDF v5.x I2C master driver** (`driver/i2c_master.h`).

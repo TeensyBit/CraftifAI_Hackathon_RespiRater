@@ -1,4 +1,4 @@
-# ESP32-C3 MPU6050 → BLE Notifications (100 Hz)
+# ESP32-C3 MPU6050 Respiration Rate calculator using FFT and Peak based Algos (100 Hz)
 
 This firmware runs on an **ESP32-C3** and streams **3-axis acceleration** from an **MPU6050** over **BLE notifications** at **100 samples/sec (100 Hz)**.
 

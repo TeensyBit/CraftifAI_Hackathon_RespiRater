@@ -1,4 +1,4 @@
-# MPU6050 based Respiration Rate calculator for sleep monitoring
+# MPU6050 based Respiration Rate tracker for sleep monitoring
 
 Vidlink: https://drive.google.com/drive/folders/1QNU3sl9Tb0qz4BG5r3MqL0wRlBGx8VSz
 

@@ -1,5 +1,7 @@
 # MPU6050 based Respiration Rate tracker for sleep monitoring
 
+Refer Readme folder for detailed documentation
+
 Vidlink: https://drive.google.com/drive/folders/1QNU3sl9Tb0qz4BG5r3MqL0wRlBGx8VSz
 
 Overview

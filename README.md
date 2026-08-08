@@ -1,6 +1,6 @@
 # MPU6050 based Respiration Rate tracker for sleep monitoring
 
-Refer Readme folder for detailed documentation
+Detailed Docs : https://github.com/TeensyBit/CraftifAI_Hackathon_RespiRater/tree/main/Readme
 
 Vidlink: https://drive.google.com/drive/folders/1QNU3sl9Tb0qz4BG5r3MqL0wRlBGx8VSz
 
